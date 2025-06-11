@@ -228,11 +228,44 @@ During the stack creation, review all default values displayed. Confirm each val
    $ <copy>chmod 600 ~/cloudshellkey</copy>
    ```
 
-13. Copy the **rootCA.crt** from **/etc/gitlab/ssl** folder to the Siebel Cloud Manager instance's **/home/opc/certs** folder.
+16. Copy the **rootCA.crt** from **/etc/gitlab/ssl** folder to the Siebel Cloud Manager instance's **/home/opc/certs** folder.
 
    ```
    $ <copy>scp -i ~/cloudshellkey rootCA.crt opc@{Public IP address for SCM instance}:/home/opc/certs</copy>
    ```
+
+17. Open a new terminal and log in to the Siebel Cloud Manager instance.
+
+   ```
+   [~]$ ssh -i cloudshellkey opc@***.***.***.***
+
+   The authenticity of host '***.***.***.*** (***.***.***.***)' can't be established.
+   ED25519 key fingerprint is SHA256:hygK------------------------------------------------.
+   This key is not known by any other names
+   Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+   Warning: Permanently added '***.***.***.***' (ED25519) to the list of known hosts.
+
+   Enter passphrase for key 'cloudshellkey': 
+
+   [opc@scm2024****-**-siebel-cm ~]$ 
+   ```
+
+18. Find out the container ID for **cloudmanager** using the following command.
+
+   ```
+   $ <copy>docker ps</copy>
+   ```
+
+   The above command will give the output of the running Siebel cloud manager container, which will look something like this
+
+
+   ![docker ps command output](./images/docker-ps-output.png)
+
+19. Copy the **rootCA.crt** from **/home/opc/certs** folder to the docker **/home/opc/certs** folder
+
+   ```
+   $ <copy>docker cp /home/opc/certs/rootCA.crt {containerId}:/home/opc/certs/rootCA.crt</copy>
+   ``` 
 
 ## Task 3:  Plan to keep your Gitlab instance up to date
 
@@ -309,6 +342,6 @@ You may now **proceed to the next lab**.
 
 ## Acknowledgements
 
-* **Author:** Duncan Ford, Software Engineer; Shyam Mohandas, Principal Cloud Architect; Sampath Nandha, Principal Cloud Architect
+* **Author:** Duncan Ford, Software Engineer; Shyam Mohandas, Principal Cloud Architect; Sampath Nandha, Principal Cloud Architect; Rosmin Siby Cherickal, Software Engineer
 * **Contributors** - Vinodh Kolluri, Raj Aggarwal, Mark Farrier, Sandeep Kumar
-* **Last Updated By/Date** - Duncan Ford, Software Engineer, October 2024
+* **Last Updated By/Date** - Rosmin Siby Cherickal, Software Engineer, June 2025
